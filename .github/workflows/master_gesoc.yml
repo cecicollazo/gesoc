@@ -29,5 +29,5 @@ jobs:
       with:
         app-name: 'gesoc'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_744ec65002ce4c24a0fa7a290b7b7f2d }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f977b107b53c4acd88918b109b924755 }}
         package: '${{ github.workspace }}/target/*.jar'
