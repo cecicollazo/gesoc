@@ -1,0 +1,138 @@
+{{#partial "contenido"}}
+    <style>
+        .loader4 {
+            width: 45px;
+            height: 45px;
+            display: inline-block;
+            padding: 0px;
+            border-radius: 100%;
+            border: 5px solid;
+            border-top-color: rgba(246, 36, 89, 1);
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+            border-left-color: rgba(246, 36, 89, 1);
+            border-right-color: rgba(255, 255, 255, 0.3);
+            -webkit-animation: loader4 1s ease-in-out infinite;
+            animation: loader4 1s ease-in-out infinite;
+        }
+
+        @keyframes loader4 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @-webkit-keyframes loader4 {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+    </style>
+
+    <div class="row">
+        <div class="col-sm-3 text-center">
+            <button type="button" onclick="(window.location.href = '/')" class="btn btn-info btn-lg">Volver a home
+            </button>
+        </div>
+        <div class="col-sm-3 text-center">
+            <button id="init"  type="button" onclick="initData()" class="btn btn-success btn-lg">Inicializar Datos</button>
+        </div>
+        <div class="col-sm-3 text-center">
+            <button id="dele" type="button" onclick="deleteData()" class="btn btn-danger btn-lg">Borrar Datos</button>
+        </div>
+        <div class="col-sm-3 text-center">
+            <button id="prov" type="button" onclick="obetenerProveedores()" class="btn btn-warning btn-lg">Consultar proveedores</button>
+        </div>
+        <div class="col-sm-12 text-center mt-5">
+            <div id="loader" class="loader4"></div>
+        </div>
+        <div class="col-sm-12 text-center mt-5">
+            <div id="alert-ok" class="alert alert-success text-left" role="alert">
+                ...
+            </div>
+            <div id="alert-error" class="alert alert-danger text-left" role="alert">
+                ...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            resetAlerts();
+        });
+
+        function resetAlerts() {
+            $("#loader").hide();
+            $("#alert-ok").hide();
+            $("#alert-error").hide();
+        }
+
+        function initData() {
+            document.getElementById("init").disabled = true;
+            resetAlerts();
+            $("#loader").show();
+            axios.post('/api/init', undefined)
+                    .then(function (response) {
+                        $("#alert-ok").show();
+                        $("#alert-ok").html("Datos inicializados correctamente")
+                    })
+                    .catch(function (error) {
+                        $("#alert-error").show();
+                        $("#alert-error").html("Error al inicializar datos")
+                    })
+                    .finally(function () {
+                        $("#loader").hide();
+                        document.getElementById("init").disabled = false
+                    })
+        }
+
+        function deleteData() {
+            document.getElementById("dele").disabled = true;
+            resetAlerts();
+            $("#loader").show();
+            axios.post('/api/delete', undefined)
+                    .then(function (response) {
+                        $("#alert-ok").show();
+                        $("#alert-ok").html("Datos BORRADOS correctamente")
+                    })
+                    .catch(function (error) {
+                        $("#alert-error").show();
+                        $("#alert-error").html("Error al BORRAR datos")
+                    })
+                    .finally(function () {
+                        $("#loader").hide();
+                        document.getElementById("dele").disabled = false
+                    })
+        }
+
+        function obetenerProveedores() {
+            document.getElementById("prov").disabled = true;
+            resetAlerts();
+            $("#loader").show();
+            axios.get('/api/proveedores', null)
+                    .then(function (response) {
+                        $("#alert-ok").html(JSON.stringify(response.data, null, 6)
+                                .replace(/\n( *)/g, function (match, p1) {
+                                    return '<br>' + '&nbsp;'.repeat(p1.length);}));
+                        $("#alert-ok").show();
+                    })
+                    .catch(function (error) {
+                        $("#alert-error").show();
+                        $("#alert-error").html("Error al visualizar proveedores")
+                    })
+                    .finally(function () {
+                        $("#loader").hide();
+                        document.getElementById("prov").disabled = false
+                    })
+        }
+    </script>
+
+{{/partial}}
+
+{{>layout.hbs}}

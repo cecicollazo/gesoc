@@ -1,0 +1,51 @@
+{{#partial "contenido"}}
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Metodo</th>
+                <th scope="col">recurso</th>
+                <th scope="col">parametros</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>GET</td>
+                <td>/api/balances</td>
+                <td>
+                    <div>
+                        criterio={fecha}&fechaDesde={YYYY-MM-DD}&hasta={YYYY-MM-DD}
+                    </div>
+                    <div>
+                        criterio={egreso}
+                    </div>
+                    <div>
+                        criterio={ingreso}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/api/validar/:id</td>
+                <td>
+                    <div>
+                        id={idEgreso}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/api/movimientos</td>
+                <td>
+                    <div>
+                        id={id}&tabla={tabla}
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{{/partial}}
+
+{{>layout.hbs}}

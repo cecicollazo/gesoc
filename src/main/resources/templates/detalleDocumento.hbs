@@ -1,0 +1,28 @@
+{{#partial "contenido"}}
+    <h3>Egreso {{idEgreso}}</h3>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-info mb-sm-3" href="/egresos" role="button" >volver</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-success" href="/egresos/{{idEgreso}}/documentos/nuevo" role="button">Cargar documento</a>
+        </div>
+    </div>
+    <div>
+        {{#if documento}}
+        <h2 id="detallarDocumentoLabel">Documento ID: {{documento.id}}</h2>
+            <div class="card-body">
+                <h5 class="card-title">Tipo documento: {{documento.tipo}}</h5>
+                <p class="card-text">Numero: {{documento.numero}}</p>
+            </div>
+        {{else}}
+            <h2>No hay documento comercial asociado al egreso.</h2>
+        {{/if}}
+    </div>
+{{/partial}}
+
+{{#partial "botón-cargar"}}
+    <a class="btn btn-success" href="/egresos/{{idEgreso}}/documentos/nuevo" role="button">Cargar documento</a>
+{{/partial}}
+
+{{>layout.hbs}}

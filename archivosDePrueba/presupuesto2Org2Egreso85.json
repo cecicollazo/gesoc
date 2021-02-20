@@ -1,0 +1,25 @@
+{
+  "documentos": [
+    {
+      "tipo": "FACTURA",
+      "numero": 99991111,
+      "pathAlArchivo": "",
+      "pathAlLink": ""
+    }
+  ],
+  "ítems": [
+    {
+      "producto": {
+        "descripcion": "Teclado",
+        "marca": "Pineapple",
+        "origen": "Chinarda",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra de teclados",
+      "precioTotal": 200,
+      "cantidad": 3
+    }
+  ],
+  "idProveedor": 5,
+  "nombresCategoría": ["Buenos Aires", "Moreno"]
+}

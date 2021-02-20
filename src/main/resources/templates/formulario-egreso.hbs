@@ -1,0 +1,331 @@
+<script>
+    var indexItem = 0{{itemsLength}};
+    const tipoDocumentosIds = {
+        "FACTURA": "option-factura",
+        "NOTA_DE_DEBITO": "option-notadebito",
+        "NOTA_DE_CREDITO": "option-notacredito",
+        "RECIBO": "option-recibo",
+        "CHEQUE": "option-cheque",
+        "PAGARE": "option-pagare",
+        "ORDEN_DE_COMPRA": "option-ordencompra",
+        "BOLETA_DEPOSITO_BANCARIO": "option-boletadeposito",
+        "REMITO": "option-remito"
+    };
+
+    var newRow = `<tr class="row-item" id="row-###">
+                            <td>
+                                <div class="row">
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-nombre-###">Nombre</label>
+                                        <input class="form-control -validar" placeholder="Compra de..." type="text" name="item-nombre-###" form="form-egreso">
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-precio-###">Precio $</label>
+                                        <input class="form-control -validar" placeholder="1200" type="number" name="item-precio-###" form="form-egreso">
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-cantidad-###">Cantidad</label>
+                                        <input class="form-control -validar" placeholder="2" type="number" name="item-cantidad-###" form="form-egreso">
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-tipo-###">Tipo</label>
+                                        <select class="form-control" name="item-tipo-###" form="form-egreso">
+                                            <option selected id="option-articulo" value="ARTICULO">Articulo</option>
+                                            <option id="option-servicio" value="SERVICIO">Servicio</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label"
+                                               for="item-descripción-###">Descripcion</label>
+                                        <input class="form-control -validar" placeholder="descripcion del..." type="text" name="item-descripción-###" form="form-egreso">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-marca-###">Marca</label>
+                                        <input class="form-control -validar" placeholder="Pineapple" type="text" name="item-marca-###" form="form-egreso">
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-origen-###">Origen</label>
+                                        <input class="form-control -validar" placeholder="Alemania" type="text" name="item-origen-###" form="form-egreso">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end pr-sm-5">
+                                    <button onclick="removeRowItem('row-###')" id="button-remove-item" type="button"
+                                            class="btn btn-danger">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>`;
+
+    var fileAPersistir;
+    var fileURL;
+
+    $(document).ready(function () {
+
+        var tipoComercialSelected = "{{egreso.documentoComercial.tipo}}";
+        var optionIdToSet = tipoDocumentosIds[tipoComercialSelected];
+        if (optionIdToSet) {
+            document.getElementById(optionIdToSet).selected = true;
+        }
+
+        $('#categorías').select2({
+            multiple: true
+        });
+
+        $('#linkAPdf').hide();
+
+        $('#categorías').val([{{#each egreso.categorías}}{{id}}{{#unless @last}}, {{/unless}}{{/each}}]).change();
+
+        $('#datepicker1').datepicker(
+                {
+                    format: 'yyyy-mm-dd',
+                    todayBtn: "linked",
+                    clearBtn: true,
+                    language: "es",
+                    orientation: "bottom auto",
+                    forceParse: false,
+                    autoclose: true,
+                    todayHighlight: true
+                }
+        );
+
+        var debitCard = document.getElementById("debitCard");
+        var creditCard = document.getElementById("creditCard");
+
+        if ("{{egreso.medioDePago.tipoDeMedioDePago}}" === "DEBIT_CARD") {
+            debitCard.checked = true;
+            creditCard.checked = false;
+        }
+        if ("{{egreso.medioDePago.tipoDeMedioDePago}}" === "CREDIT_CARD") {
+            debitCard.checked = false;
+            creditCard.checked = true;
+        }
+
+        $("#button-add-item").on("click", function () {
+            const row = newRow.replaceAll("###", indexItem);
+            $("tbody").append(row);
+            indexItem++;
+        });
+
+        $("#archivoDocumentoInput").change(function(event){
+            var file = event.target.files[0],
+            reader = new FileReader();
+
+            reader.onloadend = function () {
+                fileAPersistir = new Blob([file], { type: 'application/pdf' });
+                fileURL = URL.createObjectURL(fileAPersistir);
+                $('#archivoDocumentoInputLabel').html(file.name);
+                $('#linkAPdf').show();
+            };
+            reader.readAsDataURL(file);
+        });
+
+        if("{{título}}" === "Detalle"){
+            $('#linkAPdf').show();
+        }
+    });
+
+    function openPdf(){
+        window.open(fileURL);
+    }
+
+    function removeRowItem(idRow) {
+        const row = document.getElementById(idRow);
+        row.remove();
+    }
+
+</script>
+<div>
+    <form id="form-egreso" method="post" action="/guardarEgreso/{{egreso.id}}">
+        <div>
+            <a class="btn btn-info" href="/egresos" role="button">volver</a>
+            <h3 id="cargarEgresoLabel">{{título}} Egreso</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Fecha de la Operación:</label>
+            </div>
+            <div class="col-sm-12 mb-sm-3">
+                <div class="input-group date" id='datepicker1'>
+                    <input type="text" class="form-control -validar" name="fecha" value="{{egreso.fecha}}" {{disabled}}>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-12 mb-sm-3">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="requierePresupuesto"
+                           id="requierePresupuesto" {{#if egreso.requierePresupuesto}}checked{{/if}} {{disabled}}>
+                    <label class="form-check-label" for="requierePresupuesto">¿Requiere presupuesto?</label>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label>Proveedor / Prestador de Servicios</label>
+            </div>
+            <div class="col-sm-12 mb-sm-3">
+                <select class="form-control" id="idProveedor" name="idProveedor" {{disabled}}>
+                    {{#if egreso.proveedor}}
+                        <option selected
+                                value="{{egreso.proveedor.id}}">{{egreso.proveedor.nombrePersona}}</option>{{/if}}
+                    {{#each proveedores}}
+                        <option value="{{id}}">{{nombrePersona}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="col-sm-12">
+                <label>Categorías</label>
+            </div>
+            <div class="col-sm-12 mb-sm-3">
+                <select class="form-control" id="categorías" name="categorías" multiple="multiple" {{disabled}}>
+                    {{>options-criterios.hbs categorizador.criterios}}
+                </select>
+            </div>
+            <div class="col-sm-12 mb-sm-3">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Items</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each egreso.items}}
+                        <tr class="row-item" id="row-{{@index}}">
+                            <td>
+                                <div class="row">
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-nombre-{{@index}}">Nombre</label>
+                                        <input class="form-control -validar" placeholder="Compra de..." type="text"
+                                               name="item-nombre-{{@index}}" form="form-egreso"
+                                               value="{{nombre}}" {{disabled}}>
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-precio-{{@index}}">Precio $</label>
+                                        <input class="form-control -validar" placeholder="1200" type="text"
+                                               name="item-precio-{{@index}}" form="form-egreso"
+                                               value="{{precioTotal}}" {{disabled}}>
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-cantidad-{{@index}}">Cantidad</label>
+                                        <input class="form-control -validar" placeholder="2" type="text"
+                                               name="item-cantidad-{{@index}}" form="form-egreso"
+                                               value="{{cantidad}}" {{disabled}}>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            var articulo = document.getElementById("option-articulo-{{@index}}");
+                                            var servicio = document.getElementById("option-servicio-{{@index}}");
+
+                                            if ("{{producto.tipo}}" === "ARTICULO") {
+                                                articulo.selected = true;
+                                                servicio.selected = false;
+                                            }
+                                            if ("{{producto.tipo}}" === "SERVICIO") {
+                                                articulo.selected = false;
+                                                servicio.selected = true;
+                                            }
+                                        });
+                                    </script>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-tipo-{{@index}}">Tipo</label>
+                                        <select class="form-control" name="item-tipo-{{@index}}"
+                                                form="form-egreso" {{disabled}}>
+                                            <option id="option-articulo-{{@index}}" value="ARTICULO">Articulo</option>
+                                            <option id="option-servicio-{{@index}}" value="SERVICIO">Servicio</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label"
+                                               for="item-descripción-{{@index}}">Descripcion</label>
+                                        <input class="form-control -validar" placeholder="descripcion del..." type="text"
+                                               name="item-descripción-{{@index}}" form="form-egreso"
+                                               value="{{producto.descripcion}}" {{disabled}}>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-marca-{{@index}}">Marca</label>
+                                        <input class="form-control -validar" placeholder="Pineapple" type="text"
+                                               name="item-marca-{{@index}}" form="form-egreso"
+                                               value="{{producto.marca}}" {{disabled}}>
+                                    </div>
+                                    <div class="col-sm-2 mr-sm-2">
+                                        <label class="form-check-label" for="item-origen-{{@index}}">Origen</label>
+                                        <input class="form-control -validar" placeholder="Alemania" type="text"
+                                               name="item-origen-{{@index}}" form="form-egreso"
+                                               value="{{producto.origen}}" {{disabled}}>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end pr-sm-5">
+                                    <button onclick="removeRowItem('row-{{@index}}')" id="button-remove-item"
+                                            type="button"
+                                            class="btn btn-danger" {{disabled}}>
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+                <div class="col-sm-12 mb-sm-5">
+                    <button id="button-add-item" type="button" class="btn btn-success" {{disabled}}>+ Item</button>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label>Medio de Pago</label>
+            </div>
+
+            <div class="col-sm-12 mb-sm-3">
+                <select class="form-control" id="medioDePago"
+                        name="medioDePago" {{disabled}}>
+                    {{#medioDePago}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/medioDePago}}
+                </select>
+            </div>
+
+            <div class="col-sm-12">
+                <label>Numero identificador</label>
+            </div>
+            <div class="col-sm-12 mb-sm-3">
+                <input class="form-control -validar" name="identificador"
+                       value="{{egreso.medioDePago.identificador}}" {{disabled}}>
+            </div>
+
+            <div>
+                <h5>El documento comercial se carga una vez creado el egreso.</h5>
+            </div>
+           <br>
+            <div class="col-sm-3 mb-sm-5">
+                <button id="boton-guardar" type="submit" class="btn btn-success" {{disabled}} {{hidden}}>Guardar</button>
+            </div>
+            <div class="col-sm-9 mb-sm-5">
+                <div id="inputs-error" class="alert alert-danger text-left" role="alert" hidden>
+                    ...
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+    <script>
+        $("#form-egreso").submit(function(e){
+            document.getElementById("inputs-error").hidden = true;
+            e.preventDefault();
+            var form = this;
+            var inputsHtmlCollection = e.target.getElementsByClassName("-validar");
+            var inputsArray = [...inputsHtmlCollection];
+            var inputsInvalidos = inputsArray.filter(field => (field.value.trim() === "" || field.value === undefined));
+            if(inputsInvalidos.length === 0){
+                form.submit();
+            }else {
+                document.getElementById("inputs-error").hidden = false;
+                document.getElementById("inputs-error").innerHTML = "Error en los siguientes campos: " + inputsInvalidos.map(asd => asd.name).join(" / ");
+            }
+        });
+    </script>
+
+</div>

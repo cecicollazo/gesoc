@@ -1,0 +1,71 @@
+{{#partial "contenido"}}
+
+    <script>
+        var obj;
+        $(document).ready(function () {
+            $("#alert-documento").hide();
+            $("#afterPersist").hide();
+            $("#carga-documento").change(function (e) {
+                onChange(e);
+            });
+
+            function onChange(event) {
+                var reader = new FileReader();
+                reader.onload = onReaderLoad;
+                reader.readAsText(event.target.files[0]);
+            }
+
+            function onReaderLoad(event) {
+                obj = JSON.parse(event.target.result);
+                $("#alert-documento").show()
+            }
+
+            $.cancelar = function () {
+                obj = undefined;
+                $("#carga-documento").val("");
+                $("#alert-documento").hide()
+            };
+
+            $.persistir = function () {
+                axios.post('/egresos/{{idEgreso}}/documentos', obj)
+                        .then(function (response) {
+                            $("#statusOk").show();
+                            $("#b-guardar").hide();
+                            $("#b-cancelar").hide();
+                            $("#afterPersist").show();
+                        })
+                        .catch(function (error) {
+                            $("#statusErr").show();
+                            $("#mensajeError").html(error.response.data["Error message"]);
+                            $("#b-guardar").hide();
+                            $("#b-cancelar").hide();
+                            $("#afterPersist").show();
+                        });
+            };
+        });
+    </script>
+
+    <div class="col-lg-12">
+        <a class="btn btn-info" href="/egresos/{{idEgreso}}/documentos" role="button">volver</a>
+        <h2>Cargar documento comercial (.json)</h2>
+        <h4>Si ya hay un documento asociado a este egreso, al cargar uno nuevo, se sobrescribirá.</h4>
+
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="carga-documento" {{disabled}}>
+            <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+            <br>
+            <div id="alert-documento" class="alert alert-success" role="alert">
+                DOCUMENTO CARGADO CORRECTAMENTE: ¿desea persistirlo?
+                <button id="b-cancelar" type="button" class="alert-link" onclick="$.cancelar()">Cancelar</button>
+                <button id="b-guardar" type="button" class="alert-link" onclick="$.persistir()">Guardar</button>
+                <span id="statusOk" class="badge badge-primary" style="display: none">Guardado </span>
+                <span id="statusErr" class="badge badge-danger" style="display: none">No guardado. Error: <p id="mensajeError"></p></span>
+                <div id="afterPersist">
+                    <a class="btn btn-success" href="/egresos/{{idEgreso}}/documentos/nuevo" role="button">Nuevo</a>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+{{/partial}}
+{{>layout.hbs}}

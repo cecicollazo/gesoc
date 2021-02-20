@@ -1,0 +1,44 @@
+{{#partial "contenido"}}
+    <div>
+        <a class="btn btn-info" href="/egresos/{{idEgreso}}/presupuestos" role="button" >volver</a>
+        <h2 id="detallarPresupuestoLabel">Presupuesto ID: {{presupuesto.id}}</h2>
+        <div class="card w-100">
+            <div class="card-body">
+                <h4 class="card-title">Proveedor {{presupuesto.proveedor.nombrePersona}}</h4>
+                <p class="card-text">{{presupuesto.proveedor.tipoDocumento}}
+                    : {{presupuesto.proveedor.numeroDocumento}}</p>
+                <p class="card-text">Direccion: {{presupuesto.proveedor.direccionPostal}}</p>
+                <p class="card-text">Categorias: {{#each presupuesto.categorías}}{{nombre}} {{/each}}</p>
+            </div>
+        </div>
+        <div class="">
+            {{#each presupuesto.documentosComerciales}}
+                <li class="list-group-item">{{id}}</li>
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Tipo documento: {{tipo}}</h5>
+                        <p class="card-text">Numero: {{numero}}</p>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+        <div class="row col-sm-12">
+            {{#each presupuesto.ítems}}
+
+                <div class="col-sm-3 card border-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header bg-transparent border-success">Detalle: {{nombre}}</div>
+                    <div class="card-body text-success">
+                        <h5 class="card-title">Item: {{producto.descripcion}}</h5>
+                        <p class="card-text">Marca: {{producto.marca}}</p>
+                        <p class="card-text">Tipo: {{producto.tipo}}</p>
+                        <p class="card-text">Origen: {{producto.origen}}</p>
+                        <p class="card-text">Cantidad: {{cantidad}}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-success">Precio total: ${{precioTotal}}</div>
+                </div>
+            {{/each}}
+        </div>
+        <h3>Precio total: ${{presupuesto.montoTotal}}</div>
+    </div>
+{{/partial}}
+{{>layout.hbs}}

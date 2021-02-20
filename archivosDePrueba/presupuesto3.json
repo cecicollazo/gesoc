@@ -1,0 +1,25 @@
+{
+  "documentos": [
+    {
+      "tipo": "REMITO",
+      "numero": 777888,
+      "pathAlArchivo": "",
+      "pathAlLink": ""
+    }
+  ],
+  "ítems": [
+    {
+      "producto": {
+        "descripcion": "Remera",
+        "marca": "Fulanito",
+        "origen": "Vietnam",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra remera",
+      "precioTotal": 1000,
+      "cantidad": 1
+    }
+  ],
+  "idProveedor": 3,
+  "nombresCategoría": ["Buenos Aires"]
+}

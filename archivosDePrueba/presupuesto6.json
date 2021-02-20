@@ -1,0 +1,25 @@
+{
+  "documentos": [
+    {
+      "tipo": "NOTA_DE_DEBITO",
+      "numero": 64364572,
+      "pathAlArchivo": "",
+      "pathAlLink": ""
+    }
+  ],
+  "ítems": [
+    {
+      "producto": {
+        "descripcion": "Semillas",
+        "marca": "Arcor",
+        "origen": "Uruguay",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra semillas",
+      "precioTotal": 20000,
+      "cantidad": 40000
+    }
+  ],
+  "idProveedor": 96,
+  "nombresCategoría": ["Uruguay"]
+}

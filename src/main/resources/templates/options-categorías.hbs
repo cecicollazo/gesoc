@@ -1,0 +1,6 @@
+{{#each this}}
+    <option class="option-nivel-2" value="{{id}}">{{nombre}}</option>
+    {{#if subcriterios}}
+        {{>options-criterios.hbs subcriterios}}
+    {{/if}}
+{{/each}}

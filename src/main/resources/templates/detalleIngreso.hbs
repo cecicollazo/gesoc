@@ -1,0 +1,21 @@
+{{#partial "contenido"}}
+    <div>
+        <a class="btn btn-info" href="/ingresos" role="button" >volver</a>
+        <div class="modal-header">
+            <h3 id="detallarIngresoLabel">{{título}} Ingreso</h3>
+        </div>
+
+        <div class="card border-success mb-3">
+            <div class="card-header bg-transparent border-success">Id: {{ingreso.id}}</div>
+            <div class="card-body text-success">
+                <h4 class="card-title">Detalle: {{ingreso.descripcion}}</h4>
+                <p class="card-text">Fecha ingreso: {{ingreso.fecha}}</p>
+                <p class="card-text">Categorias: {{#each ingreso.categorías}}{{nombre}} {{/each}}</p>
+            </div>
+            <div class="card-footer bg-transparent border-success">Total: ${{ingreso.montoTotal}}</div>
+        </div>
+
+    </div>
+{{/partial}}
+{{>layout.hbs}}
+

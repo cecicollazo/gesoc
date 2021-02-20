@@ -1,0 +1,25 @@
+{
+  "documentos": [
+    {
+      "tipo": "FACTURA",
+      "numero": 99991111,
+      "pathAlArchivo": "",
+      "pathAlLink": ""
+    }
+  ],
+  "ítems": [
+    {
+      "producto": {
+        "descripcion": "Computadora",
+        "marca": "Kiwi",
+        "origen": "China",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra notebook",
+      "precioTotal": 5000,
+      "cantidad": 1
+    }
+  ],
+  "idProveedor": 5,
+  "nombresCategoría": ["Buenos Aires", "Moreno"]
+}

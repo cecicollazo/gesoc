@@ -1,0 +1,56 @@
+{{#partial "tabla"}}
+    <script>
+        $(document).ready(function () {
+            $("input:checkbox").on('click', function () {
+                var $box = $(this);
+                if ($box.is(":checked")) {
+                    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                    $(group).prop("checked", false);
+                    $box.prop("checked", true);
+                } else {
+                    $box.prop("checked", false);
+                }
+            });
+            document.getElementById("botones-páginas").hidden = true;
+        });
+    </script>
+    <h3>Egreso {{idEgreso}}</h3>
+    <a class="btn btn-info mb-sm-3" href="/egresos" role="button" >volver</a>
+    <table class="table">
+        <thead>
+        <tr class="thead-light">
+            <th class="text-center" scope="col">ID</th>
+            <th class="text-center" scope="col">Proveedor</th>
+            <th class="text-center" scope="col">Total</th>
+            <th class="text-center" scope="col">Detalle</th>
+           <!-- Write your comments here <th class="text-center" scope="col">Seleccionado</th> --> 
+        </tr>
+        </thead>
+        <tbody>
+        {{#each presupuestos}}
+            <tr>
+                <td class="text-center">{{id}}</td>
+                <td class="text-center">{{proveedor.nombrePersona}}</td>
+                <td class="text-center">${{montoTotal}}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-link" data-toggle="modal"
+                            data-target="#detallePresupuesto-{{id}}">
+                        <a href="/egresos/{{idEgreso}}/presupuestos/{{id}}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </button>
+                
+        {{/each}}
+        </tbody>
+    </table>
+{{/partial}}
+
+{{#partial "botón-cargar"}}
+    <a class="btn btn-primary" href="/egresos/{{idEgreso}}/presupuestos/nuevo" role="button">Cargar presupuesto</a>
+{{/partial}}
+
+{{#partial "rutaListado"}}
+    /egresos/{{idEgreso}}/presupuestos
+{{/partial}}
+
+{{>listado.hbs nombreEntidad="presupuestos"}}

@@ -1,0 +1,9 @@
+{{#partial "contenido"}}
+    <div class="list-group">
+        {{#each categorías}}
+            <a href="/categorias/{{nombre}}" class="list-group-item list-group-item-action">{{nombre}}</a>
+        {{/each}}
+    </div>
+{{/partial}}
+
+{{>layout.hbs}}

@@ -1,0 +1,36 @@
+{
+  "documentos": [
+    {
+      "tipo": "NOTA_DE_CREDITO",
+      "numero": 9547235,
+      "pathAlArchivo": "",
+      "pathAlLink": ""
+    }
+  ],
+  "ítems": [
+    {
+      "producto": {
+        "descripcion": "Guitarra",
+        "marca": "Fender",
+        "origen": "Mexico",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra guitarra",
+      "precioTotal": 63000,
+      "cantidad": 1
+    },
+    {
+      "producto": {
+        "descripcion": "Teclado",
+        "marca": "Roland",
+        "origen": "Mexico",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra teclado",
+      "precioTotal": 47000,
+      "cantidad": 1
+    }
+  ],
+  "idProveedor": 1,
+  "nombresCategoría": ["Buenos Aires", "San Martín"]
+}

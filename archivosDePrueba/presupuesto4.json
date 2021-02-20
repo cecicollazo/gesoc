@@ -1,0 +1,25 @@
+{
+  "documentos": [
+    {
+      "tipo": "CHEQUE",
+      "numero": 9111,
+      "pathAlArchivo": "",
+      "pathAlLink": ""
+    }
+  ],
+  "ítems": [
+    {
+      "producto": {
+        "descripcion": "Dolares",
+        "marca": "Blue",
+        "origen": "Cueva",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra dolares",
+      "precioTotal": 5000,
+      "cantidad": 1
+    }
+  ],
+  "idProveedor": 2,
+  "nombresCategoría": ["Buenos Aires", "Moreno"]
+}

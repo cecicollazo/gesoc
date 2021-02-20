@@ -1,0 +1,40 @@
+{{#partial "contenido"}}
+    <div class="hero-image">
+        <div class="hero-text">
+            <h1 style="font-size:80px">GeSoc</h1>
+            <h3>Gesti&oacuten de proyectos sociales</h3>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <h2>Sistema de informaci&oacuten orientado a aspectos fundamentales de la contabilidad de gesti&oacuten</h2>
+    </div>
+    {{#if this.logged}}
+        <div class="alert alert-success text-uppercase font-weight-bold text-center" role="alert">
+            BIENVENIDO/A {{this.logged}}
+        </div>
+    {{/if}}
+    {{#unless this.logged}}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 login-form-1">
+                    <h3>Login </h3>
+                    <form method="post" action="/login">
+                        <div class="form-group">
+                            <input name="username" type="text" class="form-control" placeholder="Username" value=""/>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Password" value=""/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btnSubmit" value="Login"/>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{/unless}}
+{{/partial}}
+
+{{>layout.hbs}}

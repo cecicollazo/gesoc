@@ -1,0 +1,25 @@
+{{#partial "contenido"}}
+    <div class="container">
+        <div class="row">
+            <h1>Categoría: {{categoría.nombre}}</h1>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Subcriterios</h2>
+                <div class="list-group">
+                    {{#each categoría.subcriterios}}
+                        <a href="/categoria/{{nombre}}" class="list-group-item list-group-item-action">{{nombre}}</a>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="col">
+                <h2>Categorizables</h2>
+                {{#each categorizables}}
+                    <a href="" class="list-group-item list-group-item-action">{{descripcion}}</a>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{>layout.hbs}}

@@ -1,0 +1,36 @@
+{
+  "documentos": [
+    {
+      "tipo": "FACTURA",
+      "numero": 0,
+      "pathAlArchivo": "",
+      "pathAlLink": ""
+    }
+  ],
+  "ítems": [
+    {
+      "producto": {
+        "descripcion": "Computadora personal",
+        "marca": "Pineapple Mak",
+        "origen": "EE.UU",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra notebooks empleados",
+      "precioTotal": 130000,
+      "cantidad": 3
+    },
+    {
+      "producto": {
+        "descripcion": "Mouse premium",
+        "marca": "Pineapple Mak",
+        "origen": "EE.UU",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra mouses",
+      "precioTotal": 1300,
+      "cantidad": 5
+    }
+  ],
+  "idProveedor": 5,
+  "nombresCategoría": ["CABA"]
+}

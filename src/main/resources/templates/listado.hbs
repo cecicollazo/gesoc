@@ -1,0 +1,43 @@
+{{#partial "contenido"}}
+    <script>
+        $(document).ready(function () {
+            $('#categorías').val([{{#each categoríasFiltradas}}{{id}}{{#unless @last}}, {{/unless}}{{/each}}]).change();
+            $('#categorías').select2({
+                multiple: true
+            });
+            if (0{{páginaAnterior}} <= 0) {
+                document.getElementById("botón-página-anterior").hidden = true;
+            }
+            if ({{esÚltimaPágina}}) {
+                document.getElementById("botón-página-siguiente").hidden = true;
+            }
+        });
+    </script>
+    <div class="col-lg-12">
+        <h2>Listado de {{nombreEntidad}}</h2>
+        <div class="form-inline justify-content-between mb-sm-3">
+            {{#block "botón-cargar"}}
+            {{/block}}
+            <form class="form-inline" action="{{#block "rutaListado"}}{{/block}}">
+                <label>Categorías</label>
+                <select class="form-control" id="categorías" name="categorías" multiple="multiple">
+                    {{>options-criterios.hbs categorizador.criterios}}
+                </select>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+        </div>
+        {{#block "tabla"}}
+        {{/block}}
+        <nav id="botones-páginas">
+            <ul class="pagination pull-right">
+                <li class="page-item">
+                    <a id="botón-página-anterior" class="page-link" href="?página={{páginaAnterior}}">Anterior</a>
+                </li>
+                <li class="page-item">
+                    <a id="botón-página-siguiente" class="page-link" href="?página={{páginaSiguiente}}">Siguiente</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{{/partial}}
+{{>layout.hbs}}

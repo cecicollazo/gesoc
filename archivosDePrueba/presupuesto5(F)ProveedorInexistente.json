@@ -1,0 +1,25 @@
+{
+  "documentos": [
+    {
+      "tipo": "PAGARE",
+      "numero": 99991,
+      "pathAlArchivo": "",
+      "pathAlLink": ""
+    }
+  ],
+  "ítems": [
+    {
+      "producto": {
+        "descripcion": "Silla",
+        "marca": "Easy",
+        "origen": "China",
+        "tipo": "ARTICULO"
+      },
+      "nombre": "Compra silla",
+      "precioTotal": 11000,
+      "cantidad": 1
+    }
+  ],
+  "idProveedor": 9,
+  "nombresCategoría": ["Moreno"]
+}
